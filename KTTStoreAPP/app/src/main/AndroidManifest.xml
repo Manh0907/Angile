@@ -31,6 +31,8 @@
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".TaskDetailActivity" />
         <activity android:name=".ProductDetailActivity" />
+        <activity android:name=".StaffLoginActivity" />
+        <activity android:name=".StaffMainActivity" />
     </application>
 
 </manifest>

@@ -25,6 +25,9 @@ public interface ApiService {
     @POST("auth/reset-password")
     Call<AuthResponse> resetPassword(@Body com.nhom1.kttstoreapp.model.ResetPasswordRequest resetPasswordRequest);
 
+    @POST("auth/staff/login")
+    Call<AuthResponse> staffLogin(@Body LoginRequest loginRequest);
+
     @retrofit2.http.GET("products")
     Call<java.util.List<com.nhom1.kttstoreapp.model.Product>> getProducts();
 
