@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+
+import com.nhom1.kttstoreapp.OrderListActivity;
 import com.nhom1.kttstoreapp.R;
 import com.nhom1.kttstoreapp.StaffMainActivity;
 
@@ -39,8 +42,13 @@ public class StaffFeatureAdapter extends RecyclerView.Adapter<StaffFeatureAdapte
         holder.tvDescription.setText(feature.getDescription());
 
         holder.cardView.setOnClickListener(v -> {
-            android.widget.Toast.makeText(context, feature.getTitle() + " - Chức năng sẽ được triển khai sau", 
-                    android.widget.Toast.LENGTH_SHORT).show();
+            if ("Quản lý đơn hàng".equals(feature.getTitle())) {
+                Intent intent = new Intent(context, OrderListActivity.class);
+                context.startActivity(intent);
+            } else {
+                android.widget.Toast.makeText(context, feature.getTitle() + " - Chức năng sẽ được triển khai sau", 
+                        android.widget.Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

@@ -33,6 +33,8 @@
         <activity android:name=".ProductDetailActivity" />
         <activity android:name=".StaffLoginActivity" />
         <activity android:name=".StaffMainActivity" />
+        <activity android:name=".OrderListActivity" />
+        <activity android:name=".OrderDetailActivity" />
     </application>
 
 </manifest>
