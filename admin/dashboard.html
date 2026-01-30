@@ -28,6 +28,9 @@
                 <a href="#" class="menu-item" onclick="loadView('customers', this)">
                     <i class="fas fa-users"></i> Quản lý khách hàng
                 </a>
+                <a href="#" class="menu-item" onclick="loadView('categories', this)">
+                    <i class="fas fa-tags"></i> Quản lý danh mục
+                </a>
                 <a href="#" class="menu-item" onclick="loadView('products', this)">
                     <i class="fas fa-box"></i> Quản lý sản phẩm
                 </a>
@@ -324,38 +327,39 @@
 
         <!-- Filter Bar -->
         <div class="filter-bar flex-wrap">
-            <div class="input-group mb-0 mr-4 flex items-center"
-                style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; width: 300px;">
+            <div class="input-group mb-0 flex items-center"
+                style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; flex: 2; margin-bottom: 0;">
                 <i class="fas fa-search text-gray-400"></i>
                 <input type="text" id="searchProduct" class="input-field" placeholder="Nhập tên sản phẩm..."
                     style="border: none; background: transparent; padding: 10px; width: 100%;">
             </div>
 
-            <select class="input-field mr-4" id="filterCategory" style="width: 230px;">
+            <select class="input-field" id="filterCategory" style="flex: 1;">
                 <option value="">Tất cả danh mục</option>
                 <!-- Helper to populate categories -->
             </select>
 
-            <select class="input-field mr-4" id="filterGender" style="width: 180px;">
+            <select class="input-field" id="filterGender" style="flex: 1;">
                 <option value="">Tất cả giới tính</option>
                 <option value="Nam">Nam</option>
                 <option value="Nữ">Nữ</option>
                 <option value="Unisex">Unisex</option>
             </select>
 
-            <select class="input-field mr-4" id="filterStatus" style="width: 180px;">
+            <select class="input-field" id="filterStatus" style="flex: 1;">
                 <option value="">Tất cả trạng thái</option>
                 <option value="active">Hoạt động</option>
                 <option value="inactive">Đã ẩn</option>
             </select>
 
-            <select class="input-field mr-auto" id="sortProduct" style="width: 150px;">
+            <select class="input-field" id="sortProduct" style="flex: 0.8;">
                 <option value="newest">Mới nhất</option>
                 <option value="price_asc">Giá tăng dần</option>
                 <option value="price_desc">Giá giảm dần</option>
             </select>
 
-            <button class="btn btn-primary" onclick="openAddProductModal()">+ Thêm sản phẩm</button>
+            <button class="btn btn-primary" onclick="openAddProductModal()" style="white-space: nowrap;">+ Thêm sản
+                phẩm</button>
         </div>
 
         <!-- Table -->
@@ -380,8 +384,8 @@
     </template>
 
     <!-- Modal Template for Add/Edit Product -->
-    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center"
-        style="z-index: 1000;">
+    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden"
+        style="z-index: 9999;">
         <div class="bg-white rounded-lg p-6 w-full max-w-2xl">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold" id="modalTitle">Thêm sản phẩm mới</h3>
@@ -434,8 +438,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex justify-end mt-4">
-                    <button type="button" onclick="closeModal()" class="btn mr-2"
+                <div class="flex justify-between mt-4">
+                    <button type="button" onclick="closeModal()" class="btn"
                         style="background: #e5e7eb; color: #374151;">Hủy</button>
                     <button type="submit" class="btn btn-primary">Lưu sản phẩm</button>
                 </div>
@@ -500,37 +504,37 @@
 
         <!-- Filter Bar -->
         <div class="filter-bar flex-wrap">
-            <div class="input-group mb-0 mr-4 flex items-center"
-                style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; width: 300px;">
+            <div class="input-group mb-0 flex items-center"
+                style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; flex: 2; margin-bottom: 0;">
                 <i class="fas fa-search text-gray-400"></i>
                 <input type="text" id="searchCustomer" class="input-field"
                     placeholder="Nhập tên, email hoặc số điện thoại"
                     style="border: none; background: transparent; padding: 10px; width: 100%;">
             </div>
 
-            <select class="input-field mr-4" id="filterCustStatus" style="width: 230px;">
+            <select class="input-field" id="filterCustStatus" style="flex: 1;">
                 <option value="" id="cust-filter-all">Tất cả trạng thái</option>
                 <option value="active">Đang hoạt động</option>
                 <option value="disabled">Đã vô hiệu hóa</option>
             </select>
 
-            <select class="input-field mr-4" id="filterCustGender" style="width: 180px;">
+            <select class="input-field" id="filterCustGender" style="flex: 1;">
                 <option value="">Tất cả giới tính</option>
                 <option value="Nam">Nam</option>
                 <option value="Nữ">Nữ</option>
             </select>
 
-            <select class="input-field mr-4" id="sortCustField" style="width: 120px;">
+            <select class="input-field" id="sortCustField" style="flex: 0.8;">
                 <option value="id">Theo ID</option>
                 <option value="name">Theo Tên</option>
             </select>
 
-            <select class="input-field" id="sortCustOrder" style="width: 150px;">
+            <select class="input-field" id="sortCustOrder" style="flex: 0.8;">
                 <option value="desc">Giảm dần</option>
                 <option value="asc">Tăng dần</option>
             </select>
 
-            <button class="btn btn-primary ml-4" onclick="openAddCustomerModal()">+ Thêm khách hàng</button>
+            <!-- Admin should not create users manually; users self-register -->
         </div>
 
         <!-- Table -->
@@ -553,12 +557,66 @@
         </div>
     </template>
 
+    <template id="tpl-categories">
+        <h2 class="mb-4" style="font-size: 1.75rem; font-weight: 700;">Quản lý danh mục</h2>
+        <p class="mb-4 text-gray-500">Quản lý và theo dõi tất cả danh mục sản phẩm</p>
+
+        <!-- Stats Row -->
+        <div class="card-grid mb-4">
+            <!-- Total Categories -->
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #3b82f6;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Tổng số danh mục</div>
+                        <div class="icon-box bg-blue-100 text-blue-600"
+                            style="width: 32px; height: 32px; font-size: 1rem;">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                    </div>
+                    <div class="card-value" id="cat-total">...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar flex-wrap">
+            <div class="input-group mb-0 flex items-center"
+                style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; flex: 2; margin-bottom: 0;">
+                <i class="fas fa-search text-gray-400"></i>
+                <input type="text" id="searchCategory" class="input-field" placeholder="Tìm kiếm danh mục..."
+                    style="border: none; background: transparent; padding: 10px; width: 100%;">
+            </div>
+
+            <button class="btn btn-primary" onclick="openAddCategoryModal()" style="white-space: nowrap;">+ Thêm danh
+                mục</button>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Tên danh mục</th>
+                        <th style="width: 20%;">Hình ảnh</th>
+                        <th style="width: 25%;">Ngày tạo</th>
+                        <th style="width: 15%;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTableBody">
+                    <!-- Rows rendered via JS -->
+                </tbody>
+            </table>
+        </div>
+    </template>
+
     <!-- Modal Template for Add/Edit User -->
     <div id="userModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center"
-        style="z-index: 1000;">
+        style="z-index: 9999;">
         <div class="bg-white rounded-lg p-6 w-full max-w-xl">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold" id="userModalTitle">Thêm khách hàng mới</h3>
+                <h3 class="text-xl font-bold" id="userModalTitle">Cập nhật khách hàng</h3>
                 <button onclick="closeUserModal()" class="text-gray-500 hover:text-gray-700"><i
                         class="fas fa-times"></i></button>
             </div>
@@ -570,18 +628,14 @@
                         <input type="text" id="userNameInput" class="w-full border rounded px-3 py-2" required>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                        <input type="email" id="userEmail" class="w-full border rounded px-3 py-2" required>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email (không sửa)</label>
+                        <input type="email" id="userEmail" class="w-full border rounded px-3 py-2" readonly disabled>
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Số điện thoại</label>
                         <input type="text" id="userPhone" class="w-full border rounded px-3 py-2" required>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
-                        <input type="password" id="userPassword" class="w-full border rounded px-3 py-2"
-                            placeholder="Để trống nếu không đổi">
-                    </div>
+                    <!-- Admin không tạo/đổi mật khẩu tại đây -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Giới tính</label>
                         <select id="userGender" class="w-full border rounded px-3 py-2">
@@ -596,27 +650,702 @@
                             <option value="disabled">Vô hiệu hóa</option>
                         </select>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Vai trò</label>
-                        <select id="userRole" class="w-full border rounded px-3 py-2">
-                            <option value="user">Người dùng</option>
-                            <option value="admin">Quản trị viên</option>
-                        </select>
-                    </div>
+                    <!-- Admin không set role tại đây -->
                 </div>
-                <div class="flex justify-end mt-4">
-                    <button type="button" onclick="closeUserModal()" class="btn mr-2"
+                <div class="flex justify-between mt-4">
+                    <button type="button" onclick="closeUserModal()" class="btn"
                         style="background: #e5e7eb; color: #374151;">Hủy</button>
-                    <button type="submit" class="btn btn-primary">Lưu khách hàng</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Modal for Discounts -->
+    <div id="discountModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center"
+        style="z-index: 9999;">
+        <div class="bg-white rounded-lg p-6 w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" id="discountModalTitle">Thêm mã giảm giá</h3>
+                <button onclick="closeDiscountModal()" class="text-gray-500 hover:text-gray-700"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="discountForm" onsubmit="saveDiscount(event)">
+                <input type="hidden" id="discountId">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Mã giảm giá</label>
+                        <input type="text" id="discCode" class="w-full border rounded px-3 py-2"
+                            placeholder="VD: SALE50" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Loại giảm</label>
+                        <select id="discType" class="w-full border rounded px-3 py-2">
+                            <option value="percent">Theo %</option>
+                            <option value="fixed">Số tiền cố định</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Giá trị</label>
+                        <input type="number" id="discValue" class="w-full border rounded px-3 py-2" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Giá trị tối đa (VNĐ)</label>
+                        <input type="number" id="discMaxValue" class="w-full border rounded px-3 py-2"
+                            placeholder="Tùy chọn">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Trạng thái</label>
+                        <select id="discStatus" class="w-full border rounded px-3 py-2">
+                            <option value="active">Hoạt động</option>
+                            <option value="expired">Hết hạn</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Giới hạn sử dụng</label>
+                        <input type="number" id="discUsageLimit" class="w-full border rounded px-3 py-2"
+                            placeholder="0 = không giới hạn">
+                    </div>
+                    <div class="mb-4 col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ngày hết hạn</label>
+                        <input type="date" id="discExpiryDate" class="w-full border rounded px-3 py-2">
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" onclick="closeDiscountModal()" class="btn mr-2"
+                        style="background: #e5e7eb; color: #374151;">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu mã</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Promotions -->
+    <div id="promotionModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center"
+        style="z-index: 9999;">
+        <div class="bg-white rounded-lg p-6 w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" id="promotionModalTitle">Thêm chương trình khuyến mãi</h3>
+                <button onclick="closePromotionModal()" class="text-gray-500 hover:text-gray-700"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="promotionForm" onsubmit="savePromotion(event)">
+                <input type="hidden" id="promotionId">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="mb-4 col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tên chương trình</label>
+                        <input type="text" id="promoTitle" class="w-full border rounded px-3 py-2" required>
+                    </div>
+                    <div class="mb-4 col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Mô tả</label>
+                        <textarea id="promoDesc" class="w-full border rounded px-3 py-2" rows="2"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Giảm giá (text)</label>
+                        <input type="text" id="promoDiscount" class="w-full border rounded px-3 py-2"
+                            placeholder="VD: 50%" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Loại</label>
+                        <select id="promoType" class="w-full border rounded px-3 py-2">
+                            <option value="general">Khuyến mãi chung</option>
+                            <option value="flash_sale">Flash Sale</option>
+                            <option value="holiday">Ngày lễ</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Trạng thái</label>
+                        <select id="promoStatus" class="w-full border rounded px-3 py-2">
+                            <option value="active">Hoạt động</option>
+                            <option value="expired">Hết hạn</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Số sản phẩm</label>
+                        <input type="number" id="promoProductCount" class="w-full border rounded px-3 py-2" value="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Số danh mục</label>
+                        <input type="number" id="promoCategoryCount" class="w-full border rounded px-3 py-2" value="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ngày bắt đầu</label>
+                        <input type="date" id="promoStartDate" class="w-full border rounded px-3 py-2">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ngày kết thúc</label>
+                        <input type="date" id="promoEndDate" class="w-full border rounded px-3 py-2">
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" onclick="closePromotionModal()" class="btn mr-2"
+                        style="background: #e5e7eb; color: #374151;">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu chương trình</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Notifications -->
+    <div id="notificationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center"
+        style="z-index: 9999;">
+        <div class="bg-white rounded-lg p-6 w-full max-w-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" id="notificationModalTitle">Tạo thông báo mới</h3>
+                <button onclick="closeNotifModal()" class="text-gray-500 hover:text-gray-700"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="notificationForm" onsubmit="saveNotification(event)">
+                <input type="hidden" id="notificationId">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tiêu đề</label>
+                    <input type="text" id="notifTitle" class="w-full border rounded px-3 py-2" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Loại thông báo</label>
+                    <select id="notifType" class="w-full border rounded px-3 py-2">
+                        <option value="general">Thông báo chung</option>
+                        <option value="promotion">Khuyến mãi</option>
+                        <option value="system">Hệ thống</option>
+                        <option value="welcome">Chào mừng</option>
+                        <option value="policy">Chính sách</option>
+                        <option value="maintenance">Bảo trì</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nội dung chi tiết</label>
+                    <textarea id="notifContent" class="w-full border rounded px-3 py-2" rows="3"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Trạng thái</label>
+                    <select id="notifStatus" class="w-full border rounded px-3 py-2">
+                        <option value="sent">Đã gửi</option>
+                        <option value="pending">Chờ gửi</option>
+                        <option value="expired">Hết hạn</option>
+                    </select>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" onclick="closeNotifModal()" class="btn mr-2"
+                        style="background: #e5e7eb; color: #374151;">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Gửi thông báo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Categories -->
+    <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center"
+        style="z-index: 9999;">
+        <div class="bg-white rounded-lg p-6 w-full max-w-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold" id="categoryModalTitle">Thêm danh mục mới</h3>
+                <button onclick="closeCategoryModal()" class="text-gray-500 hover:text-gray-700"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <form id="categoryForm">
+                <input type="hidden" id="categoryId">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tên danh mục</label>
+                    <input type="text" id="catName" class="w-full border rounded px-3 py-2" placeholder="VD: Áo"
+                        required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Hình ảnh (URL)</label>
+                    <input type="text" id="catImage" class="w-full border rounded px-3 py-2" placeholder="https://..."
+                        required>
+                </div>
+                <div class="flex justify-between mt-4">
+                    <button type="button" onclick="closeCategoryModal()" class="btn"
+                        style="background: #e5e7eb; color: #374151;">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu danh mục</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Order Details -->
+    <div id="orderDetailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center"
+        style="z-index: 9999;">
+        <div class="bg-white rounded-lg p-6 w-full max-w-3xl max-h-screen overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Chi tiết đơn hàng <span id="modalOrderId"></span></h3>
+                <button onclick="closeOrderDetail()" class="text-gray-500 hover:text-gray-700"><i
+                        class="fas fa-times"></i></button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <p class="text-sm text-gray-500">Khách hàng</p>
+                    <p class="font-medium" id="modalCustomerName">-</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Số điện thoại</p>
+                    <p class="font-medium" id="modalCustomerPhone">-</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Địa chỉ</p>
+                    <p class="font-medium" id="modalShippingAddress">-</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Ngày đặt</p>
+                    <p class="font-medium" id="modalOrderDate">-</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Phương thức thanh toán</p>
+                    <p class="font-medium" id="modalPaymentMethod">-</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Trạng thái</p>
+                    <select id="modalOrderStatus" class="border rounded px-3 py-2 w-full">
+                        <option value="Pending">Chờ xác nhận</option>
+                        <option value="Processing">Đang xử lý</option>
+                        <option value="Shipped">Đang giao</option>
+                        <option value="Delivered">Đã giao</option>
+                        <option value="Cancelled">Đã hủy</option>
+                    </select>
+                </div>
+            </div>
+
+            <h4 class="font-bold mb-2">Sản phẩm đã đặt</h4>
+            <div class="table-container mb-4">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modalOrderItems">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg font-bold">Tổng cộng:</span>
+                <span class="text-lg font-bold text-green-600" id="modalTotalPrice">0 đ</span>
+            </div>
+
+            <div class="flex justify-between">
+                <button type="button" onclick="closeOrderDetail()" class="btn"
+                    style="background: #e5e7eb; color: #374151;">Đóng</button>
+                <button type="button" onclick="saveOrderStatus()" class="btn btn-primary">Cập nhật trạng thái</button>
+            </div>
+        </div>
+    </div>
+
+    </template>
+
+    <template id="tpl-orders">
+        <h2 class="mb-4" style="font-size: 1.75rem; font-weight: 700;">Quản lý đơn hàng</h2>
+        <p class="mb-4 text-gray-500">Quản lý và theo dõi tất cả đơn hàng của bạn</p>
+
+        <!-- Stats -->
+        <div class="card-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #3b82f6;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Tổng đơn hàng</div>
+                        <div class="icon-box bg-blue-100 text-blue-600"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <div class="card-value" id="order-total">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #facc15;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Đơn hàng mới</div>
+                        <div class="icon-box bg-yellow-100 text-yellow-400"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <div class="card-value" id="order-new">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #6366f1;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Đang xử lý</div>
+                        <div class="icon-box bg-purple-100 text-purple-600"><i class="fas fa-spinner"></i></div>
+                    </div>
+                    <div class="card-value" id="order-processing">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #22c55e;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Doanh thu</div>
+                        <div class="icon-box bg-green-100 text-green-600"><i class="fas fa-dollar-sign"></i></div>
+                    </div>
+                    <div class="card-value" id="order-revenue">0đ</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-bar flex-wrap">
+            <div class="input-group mb-0 flex items-center"
+                style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; flex: 2; margin-bottom: 0;">
+                <i class="fas fa-search text-gray-400"></i>
+                <input type="text" id="searchOrder" class="input-field" placeholder="Nhập mã đơn hàng, tên hoặc email"
+                    style="border: none; background: transparent; padding: 10px; width: 100%;">
+            </div>
+            <select class="input-field" id="filterOrderStatus" style="flex: 1;">
+                <option value="">Tất cả trạng thái</option>
+                <option value="Pending">Chờ xác nhận</option>
+                <option value="Processing">Đang xử lý</option>
+                <option value="Shipped">Đang giao</option>
+                <option value="Delivered">Đã giao</option>
+                <option value="Cancelled">Đã hủy</option>
+            </select>
+            <select class="input-field" id="filterOrderPayment" style="flex: 1;">
+                <option value="">Tất cả thanh toán</option>
+                <option value="cod">COD</option>
+                <option value="banking">Chuyển khoản</option>
+            </select>
+            <select class="input-field" id="sortOrderDate" style="flex: 1;">
+                <option value="desc">Ngày đặt hàng (Mới nhất)</option>
+                <option value="asc">Ngày đặt hàng (Cũ nhất)</option>
+            </select>
+            <select class="input-field" id="sortOrderTotal" style="flex: 0.8;">
+                <option value="desc">Giảm dần</option>
+                <option value="asc">Tăng dần</option>
+            </select>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Mã đơn hàng</th>
+                        <th style="width: 25%;">Khách hàng</th>
+                        <th style="width: 15%;">Tổng tiền</th>
+                        <th style="width: 15%;">Trạng thái</th>
+                        <th style="width: 15%;">Ngày đặt</th>
+                        <th style="width: 15%;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTableBody"></tbody>
+            </table>
+        </div>
+    </template>
+
+    <template id="tpl-discounts">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h2 style="font-size: 1.75rem; font-weight: 700;">Quản lý mã giảm giá</h2>
+                <p class="text-gray-500">Quản lý và theo dõi các mã giảm giá của cửa hàng</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddDiscountModal()">+ Thêm mã giảm giá</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="card-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #3b82f6;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Tổng mã giảm giá</div>
+                        <div class="icon-box bg-blue-100 text-blue-600"><i class="fas fa-tag"></i></div>
+                    </div>
+                    <div class="card-value" id="discount-total">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #22c55e;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Còn hiệu lực</div>
+                        <div class="icon-box bg-green-100 text-green-600"><i class="fas fa-check-circle"></i></div>
+                    </div>
+                    <div class="card-value" id="discount-active">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #ef4444;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Đã hết hạn</div>
+                        <div class="icon-box bg-red-100 text-red-500"><i class="fas fa-times-circle"></i></div>
+                    </div>
+                    <div class="card-value" id="discount-expired">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #a855f7;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Lượt sử dụng</div>
+                        <div class="icon-box bg-purple-100 text-purple-600"><i class="fas fa-history"></i></div>
+                    </div>
+                    <div class="card-value" id="discount-used">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-bar flex-wrap">
+            <div class="input-group mb-0 flex items-center"
+                style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; flex: 2; margin-bottom: 0;">
+                <i class="fas fa-search text-gray-400"></i>
+                <input type="text" id="searchDiscount" class="input-field" placeholder="Nhập mã gi..."
+                    style="border: none; background: transparent; padding: 10px; width: 100%;">
+            </div>
+            <select class="input-field" id="filterDiscountStatus" style="flex: 1;">
+                <option value="">Tất cả trạng thái</option>
+                <option value="active">Còn hiệu lực</option>
+                <option value="expired">Hết hạn</option>
+            </select>
+            <select class="input-field" id="filterDiscountType" style="flex: 1;">
+                <option value="">Tất cả loại</option>
+                <option value="percent">Giảm theo %</option>
+                <option value="fixed">Giảm số tiền</option>
+            </select>
+            <select class="input-field" id="filterDiscountCoupon" style="flex: 1;">
+                <option value="">Tất cả loại coupon</option>
+                <option value="shipping">Vận chuyển</option>
+                <option value="order">Đơn hàng</option>
+            </select>
+            <select class="input-field" id="sortDiscountDate" style="flex: 1;">
+                <option value="desc">Ngày tạo (Mới nhất)</option>
+                <option value="asc">Ngày tạo (Cũ nhất)</option>
+            </select>
+            <select class="input-field" id="sortDiscountValue" style="flex: 0.8;">
+                <option value="desc">Giảm dần</option>
+                <option value="asc">Tăng dần</option>
+            </select>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Mã giảm giá</th>
+                        <th style="width: 10%;">Loại</th>
+                        <th style="width: 15%;">Giá trị</th>
+                        <th style="width: 25%;">Thời hạn</th>
+                        <th style="width: 15%;">Trạng thái</th>
+                        <th style="width: 15%;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="discountTableBody"></tbody>
+            </table>
+        </div>
+    </template>
+
+    <template id="tpl-promotions">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h2 style="font-size: 1.75rem; font-weight: 700;">Quản lý khuyến mãi</h2>
+                <p class="text-gray-500">Quản lý và theo dõi các chương trình khuyến mãi của cửa hàng</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddPromotionModal()">+ Thêm khuyến mãi</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="card-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #3b82f6;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Tổng khuyến mãi</div>
+                        <div class="icon-box bg-blue-100 text-blue-600"><i class="fas fa-bullhorn"></i></div>
+                    </div>
+                    <div class="card-value" id="promo-total">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #22c55e;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Đang hoạt động</div>
+                        <div class="icon-box bg-green-100 text-green-600"><i class="fas fa-bolt"></i></div>
+                    </div>
+                    <div class="card-value" id="promo-active">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #facc15;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Sắp diễn ra</div>
+                        <div class="icon-box bg-yellow-100 text-yellow-400"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <div class="card-value" id="promo-upcoming">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #ef4444;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Đã hết hạn</div>
+                        <div class="icon-box bg-red-100 text-red-500"><i class="fas fa-flag-checkered"></i></div>
+                    </div>
+                    <div class="card-value" id="promo-expired">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-bar flex-wrap">
+            <div class="input-group mb-0 flex items-center"
+                style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; flex: 2; margin-bottom: 0;">
+                <i class="fas fa-search text-gray-400"></i>
+                <input type="text" id="searchPromo" class="input-field" placeholder="Nhập tên hoặc mô tả khuyến mãi"
+                    style="border: none; background: transparent; padding: 10px; width: 100%;">
+            </div>
+            <select class="input-field" id="filterPromoStatus" style="flex: 1;">
+                <option value="">Tất cả trạng thái</option>
+                <option value="active">Đang diễn ra</option>
+                <option value="upcoming">Sắp diễn ra</option>
+                <option value="expired">Đã kết thúc</option>
+            </select>
+            <select class="input-field" id="filterPromoType" style="flex: 1;">
+                <option value="">Tất cả loại</option>
+                <option value="flash_sale">Flash Sale</option>
+                <option value="holiday">Sự kiện</option>
+            </select>
+            <select class="input-field" id="sortPromoDate" style="flex: 1;">
+                <option value="desc">Ngày tạo (Mới nhất)</option>
+                <option value="asc">Ngày tạo (Cũ nhất)</option>
+            </select>
+            <select class="input-field" id="sortPromoValue" style="flex: 0.8;">
+                <option value="desc">Giảm dần</option>
+                <option value="asc">Tăng dần</option>
+            </select>
+        </div>
+
+        <!-- Grid for Promotions (Cards) -->
+        <div id="promoGrid" class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+        </div>
+    </template>
+
+
+    <template id="tpl-notifications">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h2 style="font-size: 1.75rem; font-weight: 700;">Quản lý thông báo</h2>
+                <p class="text-gray-500">Quản lý và theo dõi tất cả thông báo trong hệ thống</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddNotifModal()">+ Thêm thông báo</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="card-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #3b82f6;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Tổng số thông báo</div>
+                        <div class="icon-box bg-blue-100 text-blue-600"><i class="fas fa-bell"></i></div>
+                    </div>
+                    <div class="card-value" id="notif-total">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #facc15;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Đang chờ gửi</div>
+                        <div class="icon-box bg-yellow-100 text-yellow-400"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <div class="card-value" id="notif-pending">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #22c55e;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Đang hoạt động</div>
+                        <div class="icon-box bg-green-100 text-green-600"><i class="fas fa-check-circle"></i></div>
+                    </div>
+                    <div class="card-value" id="notif-active">0</div>
+                </div>
+            </div>
+            <div class="card flex justify-between items-center relative overflow-hidden">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: #ef4444;">
+                </div>
+                <div class="w-full">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="card-title">Đã hết hạn</div>
+                        <div class="icon-box bg-red-100 text-red-500"><i class="fas fa-times-circle"></i></div>
+                    </div>
+                    <div class="card-value" id="notif-expired">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-bar flex-wrap">
+            <div class="input-group mb-0 flex items-center"
+                style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; flex: 2; margin-bottom: 0;">
+                <i class="fas fa-search text-gray-400"></i>
+                <input type="text" id="searchNotif" class="input-field"
+                    placeholder="Tìm kiếm theo tiêu đề hoặc nội dung..."
+                    style="border: none; background: transparent; padding: 10px; width: 100%;">
+            </div>
+            <select class="input-field" id="filterNotifType" style="flex: 1;">
+                <option value="">Tất cả loại</option>
+                <option value="welcome">Chào mừng</option>
+                <option value="promotion">Khuyến mãi</option>
+                <option value="policy">Chính sách</option>
+                <option value="maintenance">Bảo trì</option>
+            </select>
+            <select class="input-field" id="sortNotifDate" style="flex: 1;">
+                <option value="desc">Ngày tạo (Mới nhất)</option>
+                <option value="asc">Ngày tạo (Cũ nhất)</option>
+            </select>
+            <select class="input-field" id="sortNotifOrder" style="flex: 0.8;">
+                <option value="desc">Giảm dần</option>
+                <option value="asc">Tăng dần</option>
+            </select>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Tiêu đề</th>
+                        <th style="width: 10%;">Loại</th>
+                        <th style="width: 10%;">Trạng thái</th>
+                        <th style="width: 10%;">Lượt đọc</th>
+                        <th style="width: 15%;">Ngày tạo</th>
+                        <th style="width: 15%;">Ngày hiển thị</th>
+                        <th style="width: 15%;">Ngày hết hạn</th>
+                        <th style="width: 10%;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="notifTableBody"></tbody>
+            </table>
+        </div>
     </template>
 
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/categories.js"></script>
+    <script src="js/orders.js"></script>
+    <script src="js/discounts.js"></script>
+    <script src="js/promotions.js"></script>
+    <script src="js/notifications.js"></script>
     <script src="js/dashboard.js"></script>
 </body>
 

@@ -86,6 +86,56 @@ router.get('/categories', async (req, res) => {
     }
 });
 
+// @route   POST /api/products/categories
+// @desc    Create a new category
+router.post('/categories', async (req, res) => {
+    try {
+        const { name, image } = req.body;
+        const category = new Category({ name, image });
+        await category.save();
+        res.status(201).json(category);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   PUT /api/products/categories/:id
+// @desc    Update a category
+router.put('/categories/:id', async (req, res) => {
+    try {
+        const { name, image } = req.body;
+        const category = await Category.findByIdAndUpdate(
+            req.params.id,
+            { name, image },
+            { new: true, runValidators: true }
+        );
+        if (!category) {
+            return res.status(404).json({ msg: 'Category not found' });
+        }
+        res.json(category);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   DELETE /api/products/categories/:id
+// @desc    Delete a category
+router.delete('/categories/:id', async (req, res) => {
+    try {
+        const category = await Category.findByIdAndDelete(req.params.id);
+        if (!category) {
+            return res.status(404).json({ msg: 'Category not found' });
+        }
+        res.json({ msg: 'Category removed' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+
 // @route   POST /api/products
 // @desc    Create a product
 // @access  Public (for now)
