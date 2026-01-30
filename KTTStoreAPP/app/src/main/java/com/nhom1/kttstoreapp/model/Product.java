@@ -10,6 +10,7 @@ public class Product {
     private String image;
     private double rating;
     private boolean isFeatured;
+    private String description;
 
     public String getId() {
         return id;
@@ -33,5 +34,9 @@ public class Product {
 
     public boolean isFeatured() {
         return isFeatured;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

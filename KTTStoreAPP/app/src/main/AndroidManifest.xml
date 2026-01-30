@@ -30,6 +30,7 @@
         <activity android:name=".VerifyOtpActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".TaskDetailActivity" />
+        <activity android:name=".ProductDetailActivity" />
     </application>
 
 </manifest>
