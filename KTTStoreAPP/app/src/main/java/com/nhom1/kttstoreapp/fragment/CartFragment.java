@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< HEAD
+import android.widget.Button;
+=======
+>>>>>>> upstream/main
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +20,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nhom1.kttstoreapp.R;
 import com.nhom1.kttstoreapp.adapter.CartAdapter;
 import com.nhom1.kttstoreapp.model.CartItem;
+<<<<<<< HEAD
+import com.nhom1.kttstoreapp.util.CartManager;
+
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
+
+public class CartFragment extends Fragment implements CartAdapter.OnCartChangeListener {
+
+    private RecyclerView rvCartItems;
+    private TextView tvTotalPrice;
+    private Button btnCheckout;
+    private CartAdapter cartAdapter;
+    private CartManager cartManager;
+=======
 import com.nhom1.kttstoreapp.model.Product;
 
 import java.util.ArrayList;
@@ -28,12 +47,63 @@ public class CartFragment extends Fragment implements CartAdapter.CartItemListen
     private List<CartItem> cartList;
     private TextView tvAddress;
     private TextView tvUserName, tvUserPhone, tvUserEmail;
+>>>>>>> upstream/main
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
+<<<<<<< HEAD
+
+        rvCartItems = view.findViewById(R.id.rvCartItems);
+        tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
+        btnCheckout = view.findViewById(R.id.btnCheckout);
+
+        cartManager = CartManager.getInstance();
+
+        rvCartItems.setLayoutManager(new LinearLayoutManager(getContext()));
+        cartAdapter = new CartAdapter(getContext(), cartManager.getCartItems(), this);
+        rvCartItems.setAdapter(cartAdapter);
+
+        btnCheckout.setOnClickListener(v -> {
+            if (cartManager.isEmpty()) {
+                Toast.makeText(getContext(), "Giỏ hàng trống", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Chức năng đặt hàng sẽ được triển khai sau", Toast.LENGTH_SHORT).show();
+                // TODO: Implement checkout functionality
+            }
+        });
+
+        updateTotalPrice();
+        updateCartItems();
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateCartItems();
+        updateTotalPrice();
+    }
+
+    @Override
+    public void onCartChanged() {
+        updateCartItems();
+        updateTotalPrice();
+    }
+
+    private void updateCartItems() {
+        List<CartItem> items = cartManager.getCartItems();
+        cartAdapter.updateCartItems(items);
+    }
+
+    private void updateTotalPrice() {
+        double total = cartManager.getTotalPrice();
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        tvTotalPrice.setText(format.format(total));
+=======
         initView(view);
         initData();
         return view;
@@ -91,5 +161,6 @@ public class CartFragment extends Fragment implements CartAdapter.CartItemListen
     @Override
     public void onItemChecked(CartItem item, boolean isChecked) {
         // Handle selection
+>>>>>>> upstream/main
     }
 }

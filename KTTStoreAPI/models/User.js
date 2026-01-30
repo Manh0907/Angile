@@ -24,6 +24,11 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
+<<<<<<< HEAD
+        enum: ['user', 'staff', 'admin'],
+        default: 'user'
+    },
+=======
         enum: ['user', 'admin', 'manager'],
         default: 'user'
     },
@@ -32,6 +37,7 @@ const UserSchema = new mongoose.Schema({
         enum: ['active', 'disabled'],
         default: 'active'
     },
+>>>>>>> upstream/main
     createdAt: {
         type: Date,
         default: Date.now

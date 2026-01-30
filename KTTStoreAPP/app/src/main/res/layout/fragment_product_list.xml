@@ -36,13 +36,50 @@
 
         <ImageView
             android:id="@+id/ivFilter"
+<<<<<<< HEAD
+            android:layout_width="24dp"
+=======
              android:layout_width="24dp"
+>>>>>>> upstream/main
             android:layout_height="24dp"
             android:src="@android:drawable/ic_menu_sort_by_size"
             app:tint="@color/black"/>
             
     </LinearLayout>
 
+<<<<<<< HEAD
+    <LinearLayout
+        android:id="@+id/llFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="@color/white"
+        android:elevation="2dp"
+        android:visibility="gone">
+
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_edittext"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerPriceRange"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_edittext"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+    </LinearLayout>
+=======
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,6 +97,7 @@
             <!-- Categories will be added dynamically -->
         </LinearLayout>
     </HorizontalScrollView>
+>>>>>>> upstream/main
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAllProducts"

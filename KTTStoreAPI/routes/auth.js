@@ -122,6 +122,36 @@ router.post('/reset-password', async (req, res) => {
     }
 });
 
+// @route   POST /api/auth/staff/login
+// @desc    Authenticate staff
+// @access  Public
+router.post('/staff/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        let user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ msg: 'Thông tin đăng nhập không đúng' });
+        }
+
+        // Check password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ msg: 'Thông tin đăng nhập không đúng' });
+        }
+
+        // Check if user is staff or admin
+        if (user.role !== 'staff' && user.role !== 'admin') {
+            return res.status(403).json({ msg: 'Bạn không có quyền truy cập hệ thống nhân viên' });
+        }
+
+        // Return user info
+        res.json({ msg: 'Đăng nhập thành công', user });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 
 // @route   GET /api/auth/users
 // @desc    Get all users

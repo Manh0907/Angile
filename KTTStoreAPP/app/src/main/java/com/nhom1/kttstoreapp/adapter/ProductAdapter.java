@@ -1,6 +1,7 @@
 package com.nhom1.kttstoreapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.nhom1.kttstoreapp.ProductDetailActivity;
 import com.nhom1.kttstoreapp.R;
 import com.nhom1.kttstoreapp.model.Product;
 
@@ -63,7 +65,30 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
+<<<<<<< HEAD
+        holder.tvName.setText(product.getName());
+
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        holder.tvPrice.setText(format.format(product.getPrice()));
+
+        holder.tvRating.setText(String.valueOf(product.getRating()));
+
+        Glide.with(context).load(product.getImage()).into(holder.ivImage);
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, product.getId());
+            intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_NAME, product.getName());
+            intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_PRICE, product.getPrice());
+            intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_IMAGE, product.getImage());
+            intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_RATING, product.getRating());
+            intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_DESCRIPTION, product.getDescription());
+            intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_CATEGORY_ID, product.getCategoryId());
+            context.startActivity(intent);
+        });
+=======
         holder.bind(product);
+>>>>>>> upstream/main
     }
 
     @Override
