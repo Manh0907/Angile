@@ -556,19 +556,385 @@ td {
         height: auto;
     }
 }
+
 /* Utility classes for icon boxes - injected */
-.bg-blue-100 { background-color: #dbeafe; }
-.text-blue-600 { color: #2563eb; }
-.bg-purple-100 { background-color: #f3e8ff; }
-.text-purple-600 { color: #9333ea; }
-.bg-pink-100 { background-color: #fce7f3; }
-.text-pink-500 { color: #ec4899; }
-.bg-green-100 { background-color: #dcfce7; }
-.text-green-600 { color: #16a34a; }
-.bg-red-100 { background-color: #fee2e2; }
-.text-red-600 { color: #dc2626; }
-.bg-orange-100 { background-color: #ffedd5; }
-.text-orange-600 { color: #ea580c; }
-.bg-yellow-100 { background-color: #fef9c3; }
-.text-yellow-400 { color: #facc15; }
-.icon-box { display: flex; align-items: center; justify-content: center; border-radius: 8px; }
+.bg-blue-100 {
+    background-color: #dbeafe;
+}
+
+.text-blue-600 {
+    color: #2563eb;
+}
+
+.bg-purple-100 {
+    background-color: #f3e8ff;
+}
+
+.text-purple-600 {
+    color: #9333ea;
+}
+
+.bg-pink-100 {
+    background-color: #fce7f3;
+}
+
+.text-pink-500 {
+    color: #ec4899;
+}
+
+.bg-green-100 {
+    background-color: #dcfce7;
+}
+
+.text-green-600 {
+    color: #16a34a;
+}
+
+.bg-red-100 {
+    background-color: #fee2e2;
+}
+
+.text-red-600 {
+    color: #dc2626;
+}
+
+.bg-orange-100 {
+    background-color: #ffedd5;
+}
+
+.text-orange-600 {
+    color: #ea580c;
+}
+
+.bg-yellow-100 {
+    background-color: #fef9c3;
+}
+
+.text-yellow-400 {
+    color: #facc15;
+}
+
+.icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+/* ===== Modal & Layout Utilities (Tailwind-like) ===== */
+/* Positioning */
+.fixed {
+    position: fixed;
+}
+
+.inset-0 {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+/* Simple grid helpers for modal forms */
+.grid {
+    display: grid;
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+.col-span-2 {
+    grid-column: span 2 / span 2;
+}
+
+/* Modal width helpers */
+.max-w-2xl {
+    max-width: 42rem;
+    /* ~672px */
+}
+
+.max-w-xl {
+    max-width: 36rem;
+}
+
+.max-w-lg {
+    max-width: 32rem;
+}
+
+/* Centering helpers (flex already defined above) */
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+/* Backdrop helpers */
+.bg-black {
+    background-color: #000;
+}
+
+.bg-opacity-50 {
+    /* Use backdrop without affecting children */
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+/* Colors / surfaces */
+.bg-white {
+    background: #fff;
+}
+
+.text-gray-700 {
+    color: #374151;
+}
+
+.text-gray-500 {
+    color: #6b7280;
+}
+
+.text-gray-400 {
+    color: #9ca3af;
+}
+
+.hover\:text-gray-700:hover {
+    color: #374151;
+}
+
+/* Spacing */
+.p-6 {
+    padding: 1.5rem;
+}
+
+.px-3 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.mr-2 {
+    margin-right: 0.5rem;
+}
+
+.mb-1 {
+    margin-bottom: 0.25rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+/* Typography */
+.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+/* Order Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.badge-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge-processing {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-shipped {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.badge-delivered {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge-cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+/* Borders / radius / shadow */
+.rounded {
+    border-radius: 0.5rem;
+}
+
+.rounded-lg {
+    border-radius: 0.75rem;
+}
+
+.border {
+    border: 1px solid #e5e7eb;
+}
+
+.shadow-lg {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* Modal form controls */
+#productModalFixed .bg-white,
+#userModal .bg-white,
+#discountModal .bg-white,
+#promotionModal .bg-white,
+#notificationModal .bg-white {
+    border: 1px solid rgba(17, 24, 39, 0.08);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+}
+
+#productModalFixed input[type="text"],
+#productModalFixed input[type="number"],
+#productModalFixed select,
+#userModal input[type="text"],
+#userModal input[type="email"],
+#userModal input[type="password"],
+#userModal select,
+#discountModal input,
+#discountModal select,
+#promotionModal input,
+#promotionModal textarea,
+#notificationModal input,
+#notificationModal textarea,
+#notificationModal select {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    background: #fff;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .08s ease;
+}
+
+#productModalFixed input:focus,
+#productModalFixed select:focus,
+#userModal input:focus,
+#userModal select:focus,
+#discountModal input:focus,
+#discountModal select:focus,
+#promotionModal input:focus,
+#promotionModal textarea:focus,
+#notificationModal input:focus,
+#notificationModal textarea:focus,
+#notificationModal select:focus {
+    border-color: rgba(76, 175, 80, 0.8);
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+}
+
+/* Modal header close button */
+#productModalFixed button,
+#userModal button,
+#discountModal button,
+#promotionModal button,
+#notificationModal button {
+    cursor: pointer;
+}
+
+/* Modal action buttons specific styling */
+#productModalFixed button[type="submit"],
+#userModal button[type="submit"],
+#discountModal button[type="submit"],
+#promotionModal button[type="submit"],
+#notificationModal button[type="submit"] {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+#productModalFixed button[type="submit"]:hover,
+#userModal button[type="submit"]:hover,
+#discountModal button[type="submit"]:hover,
+#promotionModal button[type="submit"]:hover,
+#notificationModal button[type="submit"]:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+    transform: translateY(-1px);
+}
+
+#productModalFixed button[type="button"],
+#userModal button[type="button"],
+#discountModal button[type="button"],
+#promotionModal button[type="button"],
+#notificationModal button[type="button"] {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    border: none;
+    font-weight: 600;
+}
+
+/* Ensure close button (X) stays transparent */
+#productModalFixed .text-gray-500,
+#userModal .text-gray-500,
+#discountModal .text-gray-500,
+#promotionModal .text-gray-500,
+#notificationModal .text-gray-500 {
+    background: transparent !important;
+    padding: 0.5rem !important;
+}
+
+/* Improve modal layout on small screens */
+@media (max-width: 768px) {
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .col-span-2 {
+        grid-column: span 1 / span 1;
+    }
+
+    .max-w-2xl,
+    .max-w-xl,
+    .max-w-lg {
+        max-width: 92vw;
+    }
+}
+
+/* Nicer overlay alignment */
+#productModalFixed,
+#userModal,
+#discountModal,
+#promotionModal,
+#notificationModal {
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    padding: 24px;
+}

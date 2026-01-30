@@ -80,10 +80,25 @@ function loadView(viewName, menuItem) {
             pageTitle.innerText = 'Quản lý khách hàng';
             renderCustomers(contentDiv);
             break;
+        case 'categories':
+            pageTitle.innerText = 'Quản lý danh mục';
+            renderCategories(contentDiv);
+            break;
         case 'orders':
-            // TEMPORARY: Empty state for Orders to avoid 404 text
             pageTitle.innerText = 'Quản lý đơn hàng';
-            contentDiv.innerHTML = '<div class="p-4"><h3>Danh sách đơn hàng</h3><p>Tính năng đang phát triển...</p></div>';
+            renderOrders(contentDiv);
+            break;
+        case 'discounts':
+            pageTitle.innerText = 'Quản lý mã giảm giá';
+            renderDiscounts(contentDiv);
+            break;
+        case 'promotions':
+            pageTitle.innerText = 'Quản lý khuyến mãi';
+            renderPromotions(contentDiv);
+            break;
+        case 'notifications':
+            pageTitle.innerText = 'Quản lý thông báo';
+            renderNotifications(contentDiv);
             break;
         case 'settings':
             pageTitle.innerText = 'Cài đặt hệ thống';
@@ -604,5 +619,52 @@ window.deleteUser = async function (id) {
         }
     } catch (err) {
         console.error(err);
+    }
+}
+
+// --- Notification Modal Functions ---
+window.openAddNotifModal = function () {
+    document.getElementById('notificationForm').reset();
+    document.getElementById('notificationId').value = '';
+    document.getElementById('notificationModalTitle').innerText = 'Tạo thông báo mới';
+    document.getElementById('notificationModal').classList.remove('hidden');
+}
+
+window.closeNotifModal = function () {
+    document.getElementById('notificationModal').classList.add('hidden');
+}
+
+window.saveNotification = async function (e) {
+    e.preventDefault();
+
+    const id = document.getElementById('notificationId').value;
+    const data = {
+        title: document.getElementById('notifTitle').value,
+        type: document.getElementById('notifType').value,
+        content: document.getElementById('notifContent').value,
+        status: document.getElementById('notifStatus').value
+    };
+
+    const method = id ? 'PUT' : 'POST';
+    const url = id ? `${CONFIG.API_URL}/notifications/${id}` : `${CONFIG.API_URL}/notifications`;
+
+    try {
+        const res = await fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+            alert('Lưu thông báo thành công!');
+            closeNotifModal();
+            const contentDiv = document.getElementById('content');
+            renderNotifications(contentDiv);
+        } else {
+            alert('Lỗi khi lưu thông báo');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Lỗi kết nối server');
     }
 }
