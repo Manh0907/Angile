@@ -7,9 +7,59 @@ const Category = require('../models/Category');
 // @desc    Get all products
 router.get('/', async (req, res) => {
     try {
-        const products = await Product.find();
+        const { page = 1, limit = 10, categoryId, minPrice, maxPrice, sort, stock, promotion, search } = req.query;
+        console.log("RECEIVED QUERY:", req.query); // Debug log
+
+        const query = {};
+
+        // Search by Name
+        if (search) {
+            query.name = { $regex: search, $options: 'i' };
+        }
+
+        // Category Filter
+        if (categoryId) {
+            query.categoryId = categoryId;
+        }
+
+        // Price Range Filter
+        if (minPrice || maxPrice) {
+            query.price = {};
+            if (minPrice) query.price.$gte = Number(minPrice);
+            if (maxPrice) query.price.$lte = Number(maxPrice);
+        }
+
+        // Stock Filter
+        if (stock === 'in_stock') {
+            query.countInStock = { $gt: 0 };
+        } else if (stock === 'out_of_stock') {
+            query.countInStock = { $lte: 0 };
+        }
+
+        // Promotion Filter (Old Price > Price)
+        if (promotion === 'true') {
+            query.$expr = { $gt: ["$oldPrice", "$price"] };
+        }
+
+        // Sorting
+        let sortOption = {};
+        if (sort === 'price_asc') {
+            sortOption = { price: 1 };
+        } else if (sort === 'price_desc') {
+            sortOption = { price: -1 };
+        } else if (sort === 'newest') {
+            sortOption = { _id: -1 };
+        }
+
+        const products = await Product.find(query)
+            .sort(sortOption)
+            .limit(limit * 1)
+            .skip((page - 1) * limit)
+            .exec();
+
         res.json(products);
     } catch (err) {
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 });
@@ -36,6 +86,50 @@ router.get('/categories', async (req, res) => {
     }
 });
 
+// @route   POST /api/products
+// @desc    Create a product
+// @access  Public (for now)
+router.post('/', async (req, res) => {
+    try {
+        const product = new Product(req.body);
+        await product.save();
+        res.status(201).json(product);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   PUT /api/products/:id
+// @desc    Update a product
+router.put('/:id', async (req, res) => {
+    try {
+        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!product) {
+            return res.status(404).json({ msg: 'Product not found' });
+        }
+        res.json(product);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   DELETE /api/products/:id
+// @desc    Delete a product
+router.delete('/:id', async (req, res) => {
+    try {
+        const product = await Product.findByIdAndDelete(req.params.id);
+        if (!product) {
+            return res.status(404).json({ msg: 'Product not found' });
+        }
+        res.json({ msg: 'Product removed' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 // @route   POST /api/products/seed
 // @desc    Seed sample data
 router.post('/seed', async (req, res) => {
@@ -57,10 +151,14 @@ router.post('/seed', async (req, res) => {
             {
                 name: 'Áo khoác len kẻ',
                 price: 875000,
+                oldPrice: 1000000,
                 image: 'https://img.freepik.com/premium-photo/woman-wearing-striped-cardigan-jeans_1040166-54.jpg',
                 categoryId: cat1._id,
                 rating: 4.5,
-                isFeatured: true
+                isFeatured: true,
+                countInStock: 10,
+                gender: 'Nữ',
+                status: 'active'
             },
             {
                 name: 'Áo sơ mi vải thô dáng slim fit',
@@ -68,15 +166,22 @@ router.post('/seed', async (req, res) => {
                 image: 'https://img.freepik.com/free-photo/solid-navy-blue-shirt-men-s-fashion-apparel-studio-shoot_53876-102146.jpg',
                 categoryId: cat4._id,
                 rating: 4.5,
-                isFeatured: true
+                isFeatured: true,
+                countInStock: 0,
+                gender: 'Nam',
+                status: 'inactive'
             },
             {
                 name: 'Quần ống suông Sophia Elegance',
                 price: 693000,
+                oldPrice: 850000,
                 image: 'https://img.freepik.com/free-photo/fashion-woman-pants_1303-4552.jpg',
                 categoryId: cat2._id,
                 rating: 4.5,
-                isFeatured: true
+                isFeatured: true,
+                countInStock: 5,
+                gender: 'Nữ',
+                status: 'active'
             },
             {
                 name: 'Áo khoác len ôm cơ bản',
@@ -84,7 +189,10 @@ router.post('/seed', async (req, res) => {
                 image: 'https://img.freepik.com/free-photo/portrait-young-woman-with-red-sweater_144627-21014.jpg',
                 categoryId: cat1._id,
                 rating: 4.5,
-                isFeatured: true
+                isFeatured: true,
+                countInStock: 20,
+                gender: 'Nữ',
+                status: 'active'
             },
             {
                 name: 'Váy đỏ dạo phố',
@@ -92,7 +200,10 @@ router.post('/seed', async (req, res) => {
                 image: 'https://img.freepik.com/free-photo/full-shot-woman-posing-stairs_23-2149867512.jpg',
                 categoryId: cat1._id,
                 rating: 5.0,
-                isFeatured: false
+                isFeatured: false,
+                countInStock: 3,
+                gender: 'Nữ',
+                status: 'active'
             }
         ];
 

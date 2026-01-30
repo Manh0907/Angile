@@ -1,5 +1,6 @@
 package com.nhom1.kttstoreapp.model;
 
+<<<<<<< HEAD
 public class CartItem {
     private Product product;
     private int quantity;
@@ -7,6 +8,23 @@ public class CartItem {
     public CartItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
+=======
+import java.io.Serializable;
+
+public class CartItem implements Serializable {
+    private Product product;
+    private int quantity;
+    private String color;
+    private String size;
+    private boolean isSelected;
+
+    public CartItem(Product product, int quantity, String color, String size) {
+        this.product = product;
+        this.quantity = quantity;
+        this.color = color;
+        this.size = size;
+        this.isSelected = false;
+>>>>>>> upstream/main
     }
 
     public Product getProduct() {
@@ -25,6 +43,7 @@ public class CartItem {
         this.quantity = quantity;
     }
 
+<<<<<<< HEAD
     public double getTotalPrice() {
         return product.getPrice() * quantity;
     }
@@ -37,5 +56,29 @@ public class CartItem {
         if (this.quantity > 1) {
             this.quantity--;
         }
+=======
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+>>>>>>> upstream/main
     }
 }

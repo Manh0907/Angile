@@ -30,6 +30,25 @@ const ProductSchema = new mongoose.Schema({
     isFeatured: {
         type: Boolean,
         default: false
+    },
+    countInStock: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    gender: {
+        type: String,
+        enum: ['Nam', 'Nữ', 'Unisex'],
+        default: 'Unisex'
+    },
+    status: {
+        type: String,
+        enum: ['active', 'inactive'],
+        default: 'active'
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 

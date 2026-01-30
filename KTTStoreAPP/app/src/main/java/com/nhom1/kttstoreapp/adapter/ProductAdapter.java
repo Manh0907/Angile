@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,18 +18,41 @@ import com.nhom1.kttstoreapp.ProductDetailActivity;
 import com.nhom1.kttstoreapp.R;
 import com.nhom1.kttstoreapp.model.Product;
 
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private Context context;
     private List<Product> productList;
+    private OnItemClickListener listener;
 
-    public ProductAdapter(Context context, List<Product> productList) {
+    public interface OnItemClickListener {
+        void onItemClick(Product product);
+    }
+
+    public ProductAdapter(Context context, List<Product> productList, OnItemClickListener listener) {
         this.context = context;
         this.productList = productList;
+        this.listener = listener;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+        notifyDataSetChanged();
+    }
+
+    public void addProducts(List<Product> products) {
+        if (products != null) {
+            int startPos = this.productList.size();
+            this.productList.addAll(products);
+            notifyItemRangeInserted(startPos, products.size());
+        }
+    }
+
+    public void clearProducts() {
+        this.productList.clear();
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -40,6 +65,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
+<<<<<<< HEAD
         holder.tvName.setText(product.getName());
 
         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
@@ -60,6 +86,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             intent.putExtra(ProductDetailActivity.EXTRA_PRODUCT_CATEGORY_ID, product.getCategoryId());
             context.startActivity(intent);
         });
+=======
+        holder.bind(product);
+>>>>>>> upstream/main
     }
 
     @Override
@@ -67,16 +96,39 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivImage;
-        TextView tvName, tvPrice, tvRating;
+    class ProductViewHolder extends RecyclerView.ViewHolder {
+        ImageView ivProductImage;
+        TextView tvProductName, tvProductPrice;
+        RatingBar ratingBar;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivImage = itemView.findViewById(R.id.ivProductImage);
-            tvName = itemView.findViewById(R.id.tvProductName);
-            tvPrice = itemView.findViewById(R.id.tvProductPrice);
-            tvRating = itemView.findViewById(R.id.tvProductRating);
+            ivProductImage = itemView.findViewById(R.id.ivProductImage);
+            tvProductName = itemView.findViewById(R.id.tvProductName);
+            tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
+            ratingBar = itemView.findViewById(R.id.ratingBar);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(productList.get(getAdapterPosition()));
+                }
+            });
+        }
+
+        public void bind(Product product) {
+            tvProductName.setText(product.getName());
+
+            DecimalFormat decimalFormat = new DecimalFormat("###,###,### đ");
+            tvProductPrice.setText(decimalFormat.format(product.getPrice()));
+
+            ratingBar.setRating((float) product.getRating());
+
+            Glide.with(context)
+                    .load(product.getImage())
+                    .placeholder(R.mipmap.ic_launcher)
+                    .error(R.mipmap.ic_launcher)
+                    .into(ivProductImage);
+
         }
     }
 }

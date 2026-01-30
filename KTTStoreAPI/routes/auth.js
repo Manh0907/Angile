@@ -3,11 +3,22 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
+// @route   GET /api/auth/health
+// @desc    Health check endpoint
+// @access  Public
+router.get('/health', (req, res) => {
+    res.json({
+        status: 'OK',
+        message: 'KTT Store API is running',
+        timestamp: new Date().toISOString()
+    });
+});
+
 // @route   POST /api/auth/register
 // @desc    Register new user
 // @access  Public
 router.post('/register', async (req, res) => {
-    const { name, email, password, phone, gender } = req.body;
+    const { name, email, password, phone, gender, role } = req.body;
 
     try {
         let user = await User.findOne({ email });
@@ -20,7 +31,8 @@ router.post('/register', async (req, res) => {
             email,
             password,
             phone,
-            gender
+            gender,
+            role: role || 'user'
         });
 
         // Hash password
@@ -137,6 +149,71 @@ router.post('/staff/login', async (req, res) => {
         res.json({ msg: 'Đăng nhập thành công', user });
     } catch (err) {
         console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   GET /api/auth/users
+// @desc    Get all users
+// @access  Public (for now)
+// @route   GET /api/auth/users
+// @desc    Get all users
+// @access  Public (for now)
+router.get('/users', async (req, res) => {
+    try {
+        const users = await User.find().select('-password');
+        res.json(users);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   POST /api/auth/users
+// @desc    Create a user (Admin)
+router.post('/users', async (req, res) => {
+    const { name, email, password, phone, gender, role, status } = req.body;
+    try {
+        let user = await User.findOne({ email });
+        if (user) return res.status(400).json({ msg: 'Email đã tồn tại' });
+
+        user = new User({ name, email, password, phone, gender, role, status });
+
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+
+        await user.save();
+        res.json(user);
+    } catch (err) {
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   PUT /api/auth/users/:id
+// @desc    Update a user
+router.put('/users/:id', async (req, res) => {
+    const { name, email, phone, gender, role, status, password } = req.body;
+    try {
+        const updateFields = { name, email, phone, gender, role, status };
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            updateFields.password = await bcrypt.hash(password, salt);
+        }
+
+        const user = await User.findByIdAndUpdate(req.params.id, updateFields, { new: true }).select('-password');
+        res.json(user);
+    } catch (err) {
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   DELETE /api/auth/users/:id
+// @desc    Delete a user
+router.delete('/users/:id', async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.json({ msg: 'User removed' });
+    } catch (err) {
         res.status(500).send('Server Error');
     }
 });

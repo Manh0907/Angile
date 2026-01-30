@@ -4,10 +4,17 @@ const Order = require('../models/Order');
 
 // @route   GET /api/orders
 // @desc    Get all orders
+<<<<<<< HEAD
 // @access  Staff/Admin
 router.get('/', async (req, res) => {
     try {
         const orders = await Order.find().populate('userId', 'name email').sort({ createdAt: -1 });
+=======
+// @access  Public (for now, usually Admin)
+router.get('/', async (req, res) => {
+    try {
+        const orders = await Order.find().sort({ createdAt: -1 });
+>>>>>>> upstream/main
         res.json(orders);
     } catch (err) {
         console.error(err.message);
@@ -15,6 +22,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 // @route   GET /api/orders/:id
 // @desc    Get order by ID
 // @access  Staff/Admin
@@ -79,4 +87,6 @@ router.post('/', async (req, res) => {
     }
 });
 
+=======
+>>>>>>> upstream/main
 module.exports = router;
