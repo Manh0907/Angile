@@ -32,10 +32,7 @@ public class MainActivity extends AppCompatActivity {
             if (itemId == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
             } else if (itemId == R.id.nav_cart) {
-<<<<<<< HEAD
-=======
-                // Cart Management
->>>>>>> upstream/main
+                // Cart management giống kttstore-android
                 selectedFragment = new CartFragment();
             } else if (itemId == R.id.nav_orders) {
                 selectedFragment = new ProductListFragment();
