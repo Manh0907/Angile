@@ -12,11 +12,9 @@ public class Product implements Serializable {
     private String image;
     private double rating;
     private boolean isFeatured;
-<<<<<<< HEAD
     private String description;
     @SerializedName("categoryId")
     private String categoryId;
-=======
     private boolean isFavorite; // Local state
 
     public Product() {
@@ -36,7 +34,6 @@ public class Product implements Serializable {
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
     }
->>>>>>> upstream/main
 
     public String getId() {
         return id;

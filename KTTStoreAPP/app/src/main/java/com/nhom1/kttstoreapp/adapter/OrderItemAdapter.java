@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,23 +46,31 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
     }
 
     class OrderItemViewHolder extends RecyclerView.ViewHolder {
+        ImageView imgProduct;
         TextView tvProductName;
+        TextView tvProductVariant;
+        TextView tvProductPrice;
         TextView tvQuantity;
-        TextView tvItemPrice;
 
         public OrderItemViewHolder(@NonNull View itemView) {
             super(itemView);
+            imgProduct = itemView.findViewById(R.id.imgProduct);
             tvProductName = itemView.findViewById(R.id.tvProductName);
+            tvProductVariant = itemView.findViewById(R.id.tvProductVariant);
+            tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
             tvQuantity = itemView.findViewById(R.id.tvQuantity);
-            tvItemPrice = itemView.findViewById(R.id.tvItemPrice);
         }
 
         public void bind(OrderItem item) {
             tvProductName.setText(item.getProductName());
-            tvQuantity.setText("Số lượng: " + item.getQuantity());
+            tvProductVariant.setText("Màu: N/A - Size: N/A");
+            tvQuantity.setText("x" + item.getQuantity());
 
             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            tvItemPrice.setText(format.format(item.getTotalPrice()));
+            tvProductPrice.setText(format.format(item.getPrice()));
+
+            // Image is not in OrderItem model, leave as placeholder
+            imgProduct.setImageResource(R.drawable.ic_launcher_background);
         }
     }
 }
