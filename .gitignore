@@ -1,0 +1,17 @@
+# IntelliJ / Android Studio
+.idea/
+*.iml
+
+# Build outputs
+.gradle/
+build/
+KTTStoreAPP/build/
+KTTStoreAPI/node_modules/
+
+# Local config
+local.properties
+*.local
+
+# OS files
+.DS_Store
+Thumbs.db

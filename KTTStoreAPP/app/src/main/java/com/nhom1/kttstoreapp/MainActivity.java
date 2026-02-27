@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             if (itemId == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
             } else if (itemId == R.id.nav_cart) {
-                // Cart Management
+
                 selectedFragment = new CartFragment();
             } else if (itemId == R.id.nav_orders) {
                 selectedFragment = new OrderListFragment();

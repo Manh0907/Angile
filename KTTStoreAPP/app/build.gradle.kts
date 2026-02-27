@@ -4,14 +4,13 @@ plugins {
 
 android {
     namespace = "com.nhom1.kttstoreapp"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 35
 
     defaultConfig {
+        // GIỮ applicationId riêng để không conflict với app gốc
         applicationId = "com.nhom1.kttstoreapp"
-        minSdk = 29
-        targetSdk = 36
+        minSdk = 24
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -31,6 +30,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -38,11 +40,22 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+    implementation(libs.glide)
+    implementation(libs.swiperefreshlayout)
+    implementation(libs.volley)
+    implementation(libs.picasso)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    // Thêm các dependency dạng chuỗi giống kttstore-android (nếu cần)
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("io.socket:socket.io-client:2.0.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
 }
