@@ -10,6 +10,8 @@ import com.nhom1.kttstoreapp.fragment.BoardFragment;
 import com.nhom1.kttstoreapp.fragment.CartFragment;
 import com.nhom1.kttstoreapp.fragment.HomeFragment;
 import com.nhom1.kttstoreapp.fragment.ProductListFragment;
+import com.nhom1.kttstoreapp.fragment.OrderListFragment;
+import com.nhom1.kttstoreapp.fragment.NotificationFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,15 +34,12 @@ public class MainActivity extends AppCompatActivity {
             if (itemId == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
             } else if (itemId == R.id.nav_cart) {
-<<<<<<< HEAD
-=======
                 // Cart Management
->>>>>>> upstream/main
                 selectedFragment = new CartFragment();
             } else if (itemId == R.id.nav_orders) {
-                selectedFragment = new ProductListFragment();
+                selectedFragment = new OrderListFragment();
             } else if (itemId == R.id.nav_notification) {
-                selectedFragment = new ProductListFragment();
+                selectedFragment = new NotificationFragment();
             } else if (itemId == R.id.nav_profile) {
                 selectedFragment = new ProductListFragment();
             }

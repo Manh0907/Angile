@@ -7,17 +7,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< HEAD
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-=======
-import android.widget.Button;
-import android.widget.LinearLayout;
->>>>>>> upstream/main
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,7 +40,6 @@ public class ProductListFragment extends Fragment {
 
     private RecyclerView rvAllProducts;
     private ProductAdapter productAdapter;
-<<<<<<< HEAD
     private EditText etSearch;
     private ImageView ivFilter;
     private LinearLayout llFilters;
@@ -55,7 +50,7 @@ public class ProductListFragment extends Fragment {
     private List<Category> categories = new ArrayList<>();
     private String selectedCategoryId = "";
     private String selectedPriceRange = "";
-=======
+
     private LinearLayout llCategories;
     private List<Product> productList = new ArrayList<>();
 
@@ -71,7 +66,6 @@ public class ProductListFragment extends Fragment {
     private Integer currentMinPrice, currentMaxPrice;
     private String currentSort, currentStock;
     private Boolean currentPromotion;
->>>>>>> upstream/main
 
     @Nullable
     @Override
@@ -80,131 +74,53 @@ public class ProductListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product_list, container, false);
 
         rvAllProducts = view.findViewById(R.id.rvAllProducts);
-<<<<<<< HEAD
         etSearch = view.findViewById(R.id.etSearch);
         ivFilter = view.findViewById(R.id.ivFilter);
-        llFilters = view.findViewById(R.id.llFilters);
-        spinnerCategory = view.findViewById(R.id.spinnerCategory);
-        spinnerPriceRange = view.findViewById(R.id.spinnerPriceRange);
-
-        rvAllProducts.setLayoutManager(new GridLayoutManager(getContext(), 2));
-
-        setupSearch();
-        setupFilters();
-        loadCategories();
-        loadProducts();
-=======
         llCategories = view.findViewById(R.id.llCategories);
 
-        view.findViewById(R.id.ivBack).setOnClickListener(v -> {
-            if (getActivity() != null)
-                getActivity().onBackPressed();
-        });
-
-        view.findViewById(R.id.ivFilter).setOnClickListener(v -> showFilterBottomSheet());
+        if (view.findViewById(R.id.ivBack) != null) {
+            view.findViewById(R.id.ivBack).setOnClickListener(v -> {
+                if (getActivity() != null)
+                    getActivity().onBackPressed();
+            });
+        }
 
         apiService = ApiClient.getClient().create(ApiService.class);
 
+        setupSearch();
+        setupFilters();
         setupRecyclerView();
         loadCategories();
         loadProducts(true);
->>>>>>> upstream/main
 
         return view;
     }
 
-<<<<<<< HEAD
     private void setupSearch() {
+        if (etSearch == null)
+            return;
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterProducts();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // To be implemented: trigger search API
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
     private void setupFilters() {
-        ivFilter.setOnClickListener(v -> {
-            if (llFilters.getVisibility() == View.VISIBLE) {
-                llFilters.setVisibility(View.GONE);
-            } else {
-                llFilters.setVisibility(View.VISIBLE);
-            }
-        });
-
-        // Setup price range spinner
-        String[] priceRanges = {"Tất cả giá", "Dưới 100.000đ", "100.000đ - 500.000đ", "500.000đ - 1.000.000đ", "Trên 1.000.000đ"};
-        ArrayAdapter<String> priceAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, priceRanges);
-        priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPriceRange.setAdapter(priceAdapter);
-
-        spinnerPriceRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedPriceRange = priceRanges[position];
-                filterProducts();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    selectedCategoryId = "";
-                } else {
-                    selectedCategoryId = categories.get(position - 1).getId();
-                }
-                filterProducts();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+        if (ivFilter == null)
+            return;
+        ivFilter.setOnClickListener(v -> showFilterBottomSheet());
     }
 
-    private void loadCategories() {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        apiService.getCategories().enqueue(new Callback<List<Category>>() {
-            @Override
-            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    categories = response.body();
-                    setupCategorySpinner();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Category>> call, Throwable t) {
-                // Silent fail - categories are optional
-            }
-        });
-    }
-
-    private void setupCategorySpinner() {
-        List<String> categoryNames = new ArrayList<>();
-        categoryNames.add("Tất cả danh mục");
-        for (Category category : categories) {
-            categoryNames.add(category.getName());
-        }
-
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categoryNames);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCategory.setAdapter(categoryAdapter);
-    }
-
-    private void loadProducts() {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        apiService.getProducts().enqueue(new Callback<List<Product>>() {
-=======
     private void showFilterBottomSheet() {
         FilterBottomSheetFragment filterFragment = new FilterBottomSheetFragment();
         filterFragment.setOnFilterApplyListener((minPrice, maxPrice, sort, stock, promotion) -> {
@@ -227,13 +143,14 @@ public class ProductListFragment extends Fragment {
         rvAllProducts.setLayoutManager(layoutManager);
 
         productAdapter = new ProductAdapter(getContext(), productList, product -> {
-            // Handle product click
-            Toast.makeText(getContext(), "Selected: " + product.getName(), Toast.LENGTH_SHORT).show();
+            android.content.Intent intent = new android.content.Intent(getContext(),
+                    com.nhom1.kttstoreapp.ProductDetailActivity.class);
+            intent.putExtra("product_id", product.getId());
+            startActivity(intent);
         });
         rvAllProducts.setAdapter(productAdapter);
 
         rvAllProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
->>>>>>> upstream/main
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -257,12 +174,8 @@ public class ProductListFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-<<<<<<< HEAD
-                    allProducts = response.body();
-                    filterProducts();
-=======
-                    setupCategoryFilters(response.body());
->>>>>>> upstream/main
+                    categories = response.body();
+                    setupCategoryFilters(categories);
                 }
             }
 
@@ -273,53 +186,8 @@ public class ProductListFragment extends Fragment {
         });
     }
 
-<<<<<<< HEAD
-    private void filterProducts() {
-        List<Product> filteredProducts = new ArrayList<>();
-
-        String searchQuery = etSearch.getText().toString().toLowerCase().trim();
-
-        for (Product product : allProducts) {
-            // Filter by search query
-            if (!searchQuery.isEmpty()) {
-                if (!product.getName().toLowerCase().contains(searchQuery)) {
-                    continue;
-                }
-            }
-
-            // Filter by category
-            if (!selectedCategoryId.isEmpty()) {
-                if (product.getCategoryId() == null || !product.getCategoryId().equals(selectedCategoryId)) {
-                    continue;
-                }
-            }
-
-            // Filter by price range
-            if (!selectedPriceRange.isEmpty() && !selectedPriceRange.equals("Tất cả giá")) {
-                double price = product.getPrice();
-                switch (selectedPriceRange) {
-                    case "Dưới 100.000đ":
-                        if (price >= 100000) continue;
-                        break;
-                    case "100.000đ - 500.000đ":
-                        if (price < 100000 || price > 500000) continue;
-                        break;
-                    case "500.000đ - 1.000.000đ":
-                        if (price < 500000 || price > 1000000) continue;
-                        break;
-                    case "Trên 1.000.000đ":
-                        if (price <= 1000000) continue;
-                        break;
-                }
-            }
-
-            filteredProducts.add(product);
-        }
-
-        productAdapter = new ProductAdapter(getContext(), filteredProducts);
-        rvAllProducts.setAdapter(productAdapter);
-=======
     private void setupCategoryFilters(List<Category> categories) {
+        llCategories.removeAllViews(); // Clear existing buttons before adding
         // Add "All" button
         addCategoryButton("Tất cả", null);
 
@@ -399,14 +267,18 @@ public class ProductListFragment extends Fragment {
 
                             if (isFirstPage) {
                                 productList.clear();
-                                productAdapter.clearProducts(); // Helper if exists, or just notifyDataSetChanged
+                                if (productAdapter != null) {
+                                    productAdapter.clearProducts();
+                                }
                             }
 
                             if (newProducts.isEmpty()) {
                                 isLastPage = true;
                             } else {
                                 productList.addAll(newProducts);
-                                productAdapter.notifyDataSetChanged();
+                                if (productAdapter != null) {
+                                    productAdapter.notifyDataSetChanged();
+                                }
                                 if (newProducts.size() < limit) {
                                     isLastPage = true;
                                 } else {
@@ -419,9 +291,10 @@ public class ProductListFragment extends Fragment {
                     @Override
                     public void onFailure(Call<List<Product>> call, Throwable t) {
                         isLoading = false;
-                        Toast.makeText(getContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                        if (getContext() != null && isAdded()) {
+                            Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
->>>>>>> upstream/main
     }
 }

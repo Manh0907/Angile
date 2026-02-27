@@ -31,14 +31,11 @@
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".TaskDetailActivity" />
         <activity android:name=".ProductDetailActivity" />
-<<<<<<< HEAD
         <activity android:name=".StaffLoginActivity" />
         <activity android:name=".StaffMainActivity" />
         <activity android:name=".OrderListActivity" />
         <activity android:name=".OrderDetailActivity" />
-=======
         <activity android:name=".FavoriteActivity" />
->>>>>>> upstream/main
     </application>
 
 </manifest>

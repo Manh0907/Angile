@@ -56,43 +56,78 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView tvOrderStatus;
-        TextView tvCustomerName;
+        TextView tvOrderId;
         TextView tvOrderDate;
+        TextView tvCustomerName;
+        TextView tvCustomerPhone;
+        TextView tvShippingAddress;
         TextView tvTotalAmount;
+        TextView tvOrderStatus;
+        TextView tvDeliveryStatus;
+        TextView tvPaymentStatus;
         CardView cardView;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
-            tvCustomerName = itemView.findViewById(R.id.tvCustomerName);
+            tvOrderId = itemView.findViewById(R.id.tvOrderId);
             tvOrderDate = itemView.findViewById(R.id.tvOrderDate);
+            tvCustomerName = itemView.findViewById(R.id.tvCustomerName);
+            tvCustomerPhone = itemView.findViewById(R.id.tvCustomerPhone);
+            tvShippingAddress = itemView.findViewById(R.id.tvShippingAddress);
             tvTotalAmount = itemView.findViewById(R.id.tvTotalAmount);
+            tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
+            tvDeliveryStatus = itemView.findViewById(R.id.tvDeliveryStatus);
+            tvPaymentStatus = itemView.findViewById(R.id.tvPaymentStatus);
             cardView = (CardView) itemView;
         }
 
         public void bind(Order order) {
-            tvOrderStatus.setText(order.getStatusDisplay());
-            tvCustomerName.setText("Khách hàng: " + order.getCustomerName());
-            
+            String shortId = order.getId() != null && order.getId().length() > 6
+                    ? order.getId().substring(order.getId().length() - 6)
+                    : order.getId();
+            tvOrderId.setText("Đơn hàng #" + shortId);
+
+            tvCustomerName.setText("Người nhận: " + order.getCustomerName());
+            tvCustomerPhone.setText("SĐT: " + (order.getPhone() != null ? order.getPhone() : "N/A"));
+            tvShippingAddress
+                    .setText("Địa chỉ: " + (order.getShippingAddress() != null ? order.getShippingAddress() : "N/A"));
+
             // Format date
             if (order.getCreatedAt() != null && !order.getCreatedAt().isEmpty()) {
                 try {
-                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+                            Locale.getDefault());
                     Date date = inputFormat.parse(order.getCreatedAt());
-                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    tvOrderDate.setText("Ngày đặt: " + outputFormat.format(date));
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                    tvOrderDate.setText(outputFormat.format(date));
                 } catch (ParseException e) {
-                    tvOrderDate.setText("Ngày đặt: " + order.getCreatedAt());
+                    tvOrderDate.setText(order.getCreatedAt());
                 }
+            } else {
+                tvOrderDate.setText("");
             }
 
             NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
             tvTotalAmount.setText("Tổng tiền: " + format.format(order.getTotalAmount()));
 
-            // Set status background color
-            int bgColor = getStatusColor(order.getStatus());
-            tvOrderStatus.setBackgroundColor(bgColor);
+            tvOrderStatus.setText("Trạng thái đơn hàng: " + order.getStatusDisplay());
+
+            // Dummy logic for delivery status based on order status
+            String deliveryText = "Đang xử lý";
+            if ("shipping".equals(order.getStatus()))
+                deliveryText = "Đang giao hàng";
+            else if ("delivered".equals(order.getStatus()))
+                deliveryText = "Đã giao hàng thành công";
+            else if ("preparing".equals(order.getStatus()))
+                deliveryText = "Đang chuẩn bị";
+            else if ("cancelled".equals(order.getStatus()))
+                deliveryText = "Đã hủy giao";
+
+            tvDeliveryStatus.setText("Trạng thái giao hàng: " + deliveryText);
+
+            // Placeholder for payment status (assume COD or already paid if not pending)
+            tvPaymentStatus.setText(
+                    "Thanh toán: " + ("pending".equals(order.getStatus()) ? "Chưa thanh toán" : "Đã thanh toán"));
 
             cardView.setOnClickListener(v -> {
                 Intent intent = new Intent(context, OrderDetailActivity.class);

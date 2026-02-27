@@ -2,7 +2,7 @@ package com.nhom1.kttstoreapp;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +16,9 @@ import com.nhom1.kttstoreapp.api.ApiService;
 import com.nhom1.kttstoreapp.model.Order;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -24,14 +27,18 @@ import retrofit2.Response;
 
 public class OrderDetailActivity extends AppCompatActivity {
 
+    private ImageView ivBack;
+    private TextView tvToolbarTitle;
+    private TextView tvOrderDate;
     private TextView tvOrderStatus;
+    private TextView tvDeliveryStatus;
+    private TextView tvPaymentStatus;
     private TextView tvCustomerName;
-    private TextView tvPhone;
+    private TextView tvCustomerPhone;
     private TextView tvShippingAddress;
-    private TextView tvTotalAmount;
     private RecyclerView rvOrderItems;
-    private Button btnConfirmOrder;
-    private Button btnPrepareOrder;
+    private TextView tvSubtotal;
+    private TextView tvDiscount;
 
     private Order currentOrder;
     private OrderItemAdapter itemAdapter;
@@ -57,21 +64,24 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        ivBack = findViewById(R.id.ivBack);
+        tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
+        tvOrderDate = findViewById(R.id.tvOrderDate);
         tvOrderStatus = findViewById(R.id.tvOrderStatus);
+        tvDeliveryStatus = findViewById(R.id.tvDeliveryStatus);
+        tvPaymentStatus = findViewById(R.id.tvPaymentStatus);
         tvCustomerName = findViewById(R.id.tvCustomerName);
-        tvPhone = findViewById(R.id.tvPhone);
+        tvCustomerPhone = findViewById(R.id.tvCustomerPhone);
         tvShippingAddress = findViewById(R.id.tvShippingAddress);
-        tvTotalAmount = findViewById(R.id.tvTotalAmount);
         rvOrderItems = findViewById(R.id.rvOrderItems);
-        btnConfirmOrder = findViewById(R.id.btnConfirmOrder);
-        btnPrepareOrder = findViewById(R.id.btnPrepareOrder);
+        tvSubtotal = findViewById(R.id.tvSubtotal);
+        tvDiscount = findViewById(R.id.tvDiscount);
 
         rvOrderItems.setLayoutManager(new LinearLayoutManager(this));
         itemAdapter = new OrderItemAdapter(this, new java.util.ArrayList<>());
         rvOrderItems.setAdapter(itemAdapter);
 
-        btnConfirmOrder.setOnClickListener(v -> confirmOrder());
-        btnPrepareOrder.setOnClickListener(v -> prepareOrder());
+        ivBack.setOnClickListener(v -> finish());
     }
 
     private void loadOrderDetail(String orderId) {
@@ -95,87 +105,61 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     private void displayOrder() {
-        if (currentOrder == null) return;
+        if (currentOrder == null)
+            return;
 
-        tvOrderStatus.setText(currentOrder.getStatusDisplay());
-        tvCustomerName.setText("Tên: " + currentOrder.getCustomerName());
-        tvPhone.setText("SĐT: " + currentOrder.getPhone());
-        tvShippingAddress.setText("Địa chỉ: " + currentOrder.getShippingAddress());
+        // Toolbar title
+        String shortId = currentOrder.getId() != null && currentOrder.getId().length() > 6
+                ? currentOrder.getId().substring(currentOrder.getId().length() - 6)
+                : currentOrder.getId();
+        tvToolbarTitle.setText("Chi tiết đơn hàng #" + shortId);
+
+        // Date
+        if (currentOrder.getCreatedAt() != null && !currentOrder.getCreatedAt().isEmpty()) {
+            try {
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+                        Locale.getDefault());
+                Date date = inputFormat.parse(currentOrder.getCreatedAt());
+                SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                tvOrderDate.setText("Ngày đặt: " + outputFormat.format(date));
+            } catch (ParseException e) {
+                tvOrderDate.setText("Ngày đặt: " + currentOrder.getCreatedAt());
+            }
+        } else {
+            tvOrderDate.setText("Ngày đặt: N/A");
+        }
+
+        tvOrderStatus.setText("Trạng thái đơn hàng: " + currentOrder.getStatusDisplay());
+
+        // Delivery logic
+        String deliveryText = "Đang xử lý";
+        if ("shipping".equals(currentOrder.getStatus()))
+            deliveryText = "Đang giao hàng";
+        else if ("delivered".equals(currentOrder.getStatus()))
+            deliveryText = "Đã giao hàng thành công";
+        else if ("preparing".equals(currentOrder.getStatus()))
+            deliveryText = "Đang chuẩn bị";
+        else if ("cancelled".equals(currentOrder.getStatus()))
+            deliveryText = "Đã hủy giao";
+        tvDeliveryStatus.setText("Trạng thái giao hàng: " + deliveryText);
+
+        tvPaymentStatus.setText(
+                "Thanh toán: " + ("pending".equals(currentOrder.getStatus()) ? "Chưa thanh toán" : "Đã thanh toán"));
+
+        tvCustomerName.setText("Họ tên: " + currentOrder.getCustomerName());
+        tvCustomerPhone
+                .setText("Số điện thoại: " + (currentOrder.getPhone() != null ? currentOrder.getPhone() : "N/A"));
+        tvShippingAddress.setText(
+                "Địa chỉ: " + (currentOrder.getShippingAddress() != null ? currentOrder.getShippingAddress() : "N/A"));
 
         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        tvTotalAmount.setText(format.format(currentOrder.getTotalAmount()));
+        tvSubtotal.setText(format.format(currentOrder.getTotalAmount()));
 
-        // Set status background color
-        int bgColor = getStatusColor(currentOrder.getStatus());
-        tvOrderStatus.setBackgroundColor(bgColor);
+        // Placeholder for discount if any
+        tvDiscount.setText("0đ");
 
-        // Update order items
+        // Update items
         itemAdapter = new OrderItemAdapter(this, currentOrder.getItems());
         rvOrderItems.setAdapter(itemAdapter);
-
-        // Show/hide buttons based on status
-        updateButtonVisibility();
-    }
-
-    private void updateButtonVisibility() {
-        String status = currentOrder.getStatus();
-        btnConfirmOrder.setVisibility(View.GONE);
-        btnPrepareOrder.setVisibility(View.GONE);
-
-        if ("pending".equals(status)) {
-            btnConfirmOrder.setVisibility(View.VISIBLE);
-        } else if ("confirmed".equals(status)) {
-            btnPrepareOrder.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void confirmOrder() {
-        updateOrderStatus("confirmed", "Đã xác nhận đơn hàng");
-    }
-
-    private void prepareOrder() {
-        updateOrderStatus("preparing", "Đã chuẩn bị đơn hàng");
-    }
-
-    private void updateOrderStatus(String newStatus, String successMessage) {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        ApiService.UpdateOrderStatusRequest request = new ApiService.UpdateOrderStatusRequest(newStatus);
-
-        apiService.updateOrderStatus(currentOrder.getId(), request).enqueue(new Callback<Order>() {
-            @Override
-            public void onResponse(Call<Order> call, Response<Order> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    currentOrder = response.body();
-                    displayOrder();
-                    Toast.makeText(OrderDetailActivity.this, successMessage, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(OrderDetailActivity.this, "Lỗi cập nhật trạng thái đơn hàng", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Order> call, Throwable t) {
-                Toast.makeText(OrderDetailActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private int getStatusColor(String status) {
-        switch (status) {
-            case "pending":
-                return 0xFFFF9800; // Orange
-            case "confirmed":
-                return 0xFF2196F3; // Blue
-            case "preparing":
-                return 0xFF9C27B0; // Purple
-            case "shipping":
-                return 0xFF00BCD4; // Cyan
-            case "delivered":
-                return 0xFF4CAF50; // Green
-            case "cancelled":
-                return 0xFFF44336; // Red
-            default:
-                return 0xFF757575; // Grey
-        }
     }
 }

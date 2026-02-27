@@ -1,19 +1,12 @@
 package com.nhom1.kttstoreapp.adapter;
 
 import android.content.Context;
-<<<<<<< HEAD
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-=======
 import android.icu.text.NumberFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
->>>>>>> upstream/main
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,13 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.nhom1.kttstoreapp.R;
 import com.nhom1.kttstoreapp.model.CartItem;
-<<<<<<< HEAD
-import com.nhom1.kttstoreapp.util.CartManager;
 
-import java.text.NumberFormat;
-=======
-
->>>>>>> upstream/main
 import java.util.List;
 import java.util.Locale;
 
@@ -37,15 +24,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     private Context context;
     private List<CartItem> cartItems;
-<<<<<<< HEAD
-    private OnCartChangeListener listener;
-
-    public interface OnCartChangeListener {
-        void onCartChanged();
-    }
-
-    public CartAdapter(Context context, List<CartItem> cartItems, OnCartChangeListener listener) {
-=======
     private CartItemListener listener;
 
     public interface CartItemListener {
@@ -57,7 +35,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public CartAdapter(Context context, List<CartItem> cartItems, CartItemListener listener) {
->>>>>>> upstream/main
         this.context = context;
         this.cartItems = cartItems;
         this.listener = listener;
@@ -66,23 +43,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-<<<<<<< HEAD
-        View view = LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false);
-=======
         View view = LayoutInflater.from(context).inflate(R.layout.item_cart_product, parent, false);
->>>>>>> upstream/main
         return new CartViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-<<<<<<< HEAD
-        CartItem cartItem = cartItems.get(position);
-        holder.bind(cartItem);
-=======
         CartItem item = cartItems.get(position);
         holder.bind(item, position);
->>>>>>> upstream/main
     }
 
     @Override
@@ -90,68 +58,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return cartItems.size();
     }
 
-<<<<<<< HEAD
-    public void updateCartItems(List<CartItem> newCartItems) {
-        this.cartItems = newCartItems;
-        notifyDataSetChanged();
-    }
-
-    class CartViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivProductImage;
-        TextView tvProductName;
-        TextView tvProductPrice;
-        TextView tvQuantity;
-        Button btnDecrease;
-        Button btnIncrease;
-        ImageView ivDelete;
-
-        public CartViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ivProductImage = itemView.findViewById(R.id.ivProductImage);
-            tvProductName = itemView.findViewById(R.id.tvProductName);
-            tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
-            tvQuantity = itemView.findViewById(R.id.tvQuantity);
-            btnDecrease = itemView.findViewById(R.id.btnDecrease);
-            btnIncrease = itemView.findViewById(R.id.btnIncrease);
-            ivDelete = itemView.findViewById(R.id.ivDelete);
-        }
-
-        public void bind(CartItem cartItem) {
-            tvProductName.setText(cartItem.getProduct().getName());
-
-            NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            tvProductPrice.setText(format.format(cartItem.getProduct().getPrice()));
-
-            tvQuantity.setText(String.valueOf(cartItem.getQuantity()));
-
-            Glide.with(context).load(cartItem.getProduct().getImage()).into(ivProductImage);
-
-            btnDecrease.setOnClickListener(v -> {
-                CartManager.getInstance().updateQuantity(
-                    cartItem.getProduct().getId(),
-                    cartItem.getQuantity() - 1
-                );
-                if (listener != null) {
-                    listener.onCartChanged();
-                }
-            });
-
-            btnIncrease.setOnClickListener(v -> {
-                CartManager.getInstance().updateQuantity(
-                    cartItem.getProduct().getId(),
-                    cartItem.getQuantity() + 1
-                );
-                if (listener != null) {
-                    listener.onCartChanged();
-                }
-            });
-
-            ivDelete.setOnClickListener(v -> {
-                CartManager.getInstance().removeProduct(cartItem.getProduct().getId());
-                if (listener != null) {
-                    listener.onCartChanged();
-                }
-=======
     class CartViewHolder extends RecyclerView.ViewHolder {
         CheckBox cbSelect;
         ImageView imgProduct;
@@ -242,7 +148,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 tvQuantity.setText(String.valueOf(newQty));
                 if (listener != null)
                     listener.onQuantityChanged(item, newQty);
->>>>>>> upstream/main
             });
         }
     }

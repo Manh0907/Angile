@@ -1,38 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F5F5F5">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Giỏ hàng"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:padding="16dp"
-        android:background="@color/white"
-        android:elevation="4dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCartItems"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="8dp"
-        android:clipToPadding="false" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:elevation="8dp"
-        android:padding="16dp">
-=======
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -62,52 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
->>>>>>> upstream/main
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Tổng tiền:"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/tvTotalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0đ"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/colorAccent" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnCheckout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:text="Đặt hàng"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:backgroundTint="@color/colorAccent"
-            android:textColor="@android:color/white" />
-
-    </LinearLayout>
-
-</LinearLayout>
-=======
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -283,8 +209,103 @@
                 tools:itemCount="2"
                 tools:listitem="@layout/item_cart_product" />
 
+            <!-- Voucher Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipVoucher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="8dp"
+                    android:text="CLEARANCE70 - GIẢM 70%: -1.000.000đ"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"
+                    app:chipBackgroundColor="@color/colorPrimary"
+                    app:closeIconTint="@android:color/white"
+                    app:closeIconVisible="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="8dp"
+                    android:text="Chọn voucher"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etVoucherCode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#EEEEEE"
+                        android:hint="Nhập mã giảm giá"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/btnApplyVoucher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:text="Áp dụng"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        app:cornerRadius="8dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <!-- Bottom Bar -->
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tvTotalPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tổng cộng: 0đ"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnCheckout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:text="Thanh toán"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:cornerRadius="8dp" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> upstream/main

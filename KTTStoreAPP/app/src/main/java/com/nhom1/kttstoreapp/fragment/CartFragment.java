@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< HEAD
 import android.widget.Button;
-=======
->>>>>>> upstream/main
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,25 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nhom1.kttstoreapp.R;
 import com.nhom1.kttstoreapp.adapter.CartAdapter;
 import com.nhom1.kttstoreapp.model.CartItem;
-<<<<<<< HEAD
 import com.nhom1.kttstoreapp.util.CartManager;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class CartFragment extends Fragment implements CartAdapter.OnCartChangeListener {
-
-    private RecyclerView rvCartItems;
-    private TextView tvTotalPrice;
-    private Button btnCheckout;
-    private CartAdapter cartAdapter;
-    private CartManager cartManager;
-=======
 import com.nhom1.kttstoreapp.model.Product;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CartFragment extends Fragment implements CartAdapter.CartItemListener {
 
@@ -47,37 +36,22 @@ public class CartFragment extends Fragment implements CartAdapter.CartItemListen
     private List<CartItem> cartList;
     private TextView tvAddress;
     private TextView tvUserName, tvUserPhone, tvUserEmail;
->>>>>>> upstream/main
+    private CartManager cartManager;
+
+    private TextView tvTotalPrice;
+    private Button btnCheckout;
+    private com.google.android.material.chip.Chip chipVoucher;
+    private Button btnApplyVoucher;
+    private EditText etVoucherCode;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
-<<<<<<< HEAD
-
-        rvCartItems = view.findViewById(R.id.rvCartItems);
-        tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
-        btnCheckout = view.findViewById(R.id.btnCheckout);
-
+        initView(view);
         cartManager = CartManager.getInstance();
-
-        rvCartItems.setLayoutManager(new LinearLayoutManager(getContext()));
-        cartAdapter = new CartAdapter(getContext(), cartManager.getCartItems(), this);
-        rvCartItems.setAdapter(cartAdapter);
-
-        btnCheckout.setOnClickListener(v -> {
-            if (cartManager.isEmpty()) {
-                Toast.makeText(getContext(), "Giỏ hàng trống", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "Chức năng đặt hàng sẽ được triển khai sau", Toast.LENGTH_SHORT).show();
-                // TODO: Implement checkout functionality
-            }
-        });
-
-        updateTotalPrice();
-        updateCartItems();
-
+        initData();
         return view;
     }
 
@@ -88,25 +62,30 @@ public class CartFragment extends Fragment implements CartAdapter.CartItemListen
         updateTotalPrice();
     }
 
-    @Override
-    public void onCartChanged() {
-        updateCartItems();
-        updateTotalPrice();
-    }
-
     private void updateCartItems() {
-        List<CartItem> items = cartManager.getCartItems();
-        cartAdapter.updateCartItems(items);
+        if (adapter != null) {
+            cartList.clear();
+            cartList.addAll(cartManager.getCartItems());
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void updateTotalPrice() {
-        double total = cartManager.getTotalPrice();
+        if (tvTotalPrice == null)
+            return;
+        double total = 0;
+        for (CartItem item : cartList) {
+            if (item.isSelected()) {
+                total += item.getTotalPrice();
+            }
+        }
+
+        if (chipVoucher != null && chipVoucher.getVisibility() == View.VISIBLE) {
+            total = total * 0.9; // Giảm 10%
+        }
+
         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        tvTotalPrice.setText(format.format(total));
-=======
-        initView(view);
-        initData();
-        return view;
+        tvTotalPrice.setText("Tổng cộng: " + format.format(total));
     }
 
     private void initView(View view) {
@@ -119,48 +98,69 @@ public class CartFragment extends Fragment implements CartAdapter.CartItemListen
         // Setup RecyclerView
         rvCartItems.setLayoutManager(new LinearLayoutManager(getContext()));
         rvCartItems.setNestedScrollingEnabled(false); // Disable scrolling to work well inside NestedScrollView
+
+        tvTotalPrice = view.findViewById(R.id.tvTotalPrice);
+        btnCheckout = view.findViewById(R.id.btnCheckout);
+        chipVoucher = view.findViewById(R.id.chipVoucher);
+        btnApplyVoucher = view.findViewById(R.id.btnApplyVoucher);
+        etVoucherCode = view.findViewById(R.id.etVoucherCode);
+
+        btnCheckout.setOnClickListener(v -> {
+            boolean hasSelected = false;
+            for (CartItem item : cartList) {
+                if (item.isSelected()) {
+                    hasSelected = true;
+                    break;
+                }
+            }
+            if (!hasSelected) {
+                Toast.makeText(getContext(), "Vui lòng chọn sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Chức năng thanh toán đang phát triển", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnApplyVoucher.setOnClickListener(v -> {
+            String code = etVoucherCode.getText().toString().trim();
+            if (!code.isEmpty()) {
+                chipVoucher.setText(code + " - Đã áp dụng 10%");
+                chipVoucher.setVisibility(View.VISIBLE);
+                updateTotalPrice();
+            } else {
+                Toast.makeText(getContext(), "Vui lòng nhập mã giảm giá", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        chipVoucher.setOnCloseIconClickListener(v -> {
+            chipVoucher.setVisibility(View.GONE);
+            etVoucherCode.setText("");
+            updateTotalPrice();
+        });
     }
 
     private void initData() {
-        // Mock Data as per screenshot
-        cartList = new ArrayList<>();
-
-        Product p1 = new Product("p1", "Chân váy Mini Khaki", 763000, "https://example.com/skirt.jpg");
-        // Note: Using placeholder URL, Glide will show error placeholder if it fails,
-        // which is fine for mock.
-        // If user provided an image, I would use that, but I don't have the image file
-        // URL from the web.
-        // I will use a resource ID if I can, but Model expects String.
-        // For local testing without internet, this might show placeholder.
-
-        cartList.add(new CartItem(p1, 3, "Be", "M"));
-
-        // Add another item for testing
-        Product p2 = new Product("p2", "Áo sơ mi trắng", 450000, "");
-        cartList.add(new CartItem(p2, 1, "Trắng", "L"));
-
+        cartList = new ArrayList<>(cartManager.getCartItems());
         adapter = new CartAdapter(getContext(), cartList, this);
         rvCartItems.setAdapter(adapter);
     }
 
     @Override
     public void onQuantityChanged(CartItem item, int newQuantity) {
-        // Handle quantity update (e.g., update total price if implemented)
-        // Toast.makeText(getContext(), "Updated: " + item.getProduct().getName() + " ->
-        // " + newQuantity, Toast.LENGTH_SHORT).show();
+        cartManager.updateQuantity(item.getProduct().getId(), newQuantity);
+        updateTotalPrice();
     }
 
     @Override
     public void onDeleteClick(CartItem item, int position) {
-        cartList.remove(position);
-        adapter.notifyItemRemoved(position);
-        adapter.notifyItemRangeChanged(position, cartList.size());
+        cartManager.removeProduct(item.getProduct().getId());
+        updateCartItems();
+        updateTotalPrice();
         Toast.makeText(getContext(), "Đã xóa " + item.getProduct().getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemChecked(CartItem item, boolean isChecked) {
-        // Handle selection
->>>>>>> upstream/main
+        item.setSelected(isChecked);
+        updateTotalPrice();
     }
 }
